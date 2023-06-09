@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@litee-blog/shared": "^1.0.0"
+    "@litee-blog/shared": "^1.0.1"
   }
 }

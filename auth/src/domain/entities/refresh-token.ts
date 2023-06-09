@@ -1,4 +1,8 @@
+import { IAccount } from "./account";
+
 export interface IRefreshToken {
-  token: string;
+  _id: string;
+  refreshToken: string;
   userId: string;
+  account: IAccount;
 }
