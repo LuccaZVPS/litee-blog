@@ -1,8 +1,13 @@
+import { IAccount } from "../entities/account";
+
 export interface ISignUp {
-  signup(account: IAccountDTO): Promise<void>;
+  signup(account: ISignUpDTO): Promise<ISignupResponse>;
 }
-interface IAccountDTO {
+export interface ISignUpDTO {
   name: string;
   password: string;
   email: string;
+}
+export interface ISignupResponse extends IAccount {
+  secret: string;
 }
