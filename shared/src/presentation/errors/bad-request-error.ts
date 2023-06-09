@@ -9,7 +9,10 @@ export class BadRequestError extends BaseError {
     this.reason = message;
     Object.setPrototypeOf(this, BadRequestError.prototype);
   }
-  serializeErrors(): { message: string; field?: string | undefined }[] {
+  serializeErrors(): {
+    message: string | string[];
+    field?: string | undefined;
+  }[] {
     return this.reason;
   }
 }

@@ -4,5 +4,5 @@ export abstract class BaseError extends Error {
     Object.setPrototypeOf(this, BaseError.prototype);
   }
   abstract statusCode: number;
-  abstract serializeErrors(): { message: string; field?: string }[];
+  abstract serializeErrors(): { message: string | string[]; field?: string }[];
 }
