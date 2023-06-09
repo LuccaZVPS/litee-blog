@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@litee-blog/shared": "^1.0.2"
+    "@litee-blog/shared": "^1.0.2",
+    "@types/bcryptjs": "^2.4.2",
+    "bcryptjs": "^2.4.3"
   }
 }
