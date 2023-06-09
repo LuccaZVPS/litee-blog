@@ -6,4 +6,7 @@ const verificationSchema = new mongoose.Schema({
   accountId: { type: String, required: true },
   status: { type: Boolean, required: true, default: false },
 });
-export const verificationModel = mongoose.model("accounts", verificationSchema);
+export const verificationModel = mongoose.model(
+  "verifications",
+  verificationSchema
+);
