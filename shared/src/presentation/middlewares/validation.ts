@@ -37,7 +37,7 @@ export class ValidationMiddleware {
         }
       }
       const errors = await this.validator(instancedDTO);
-      if (errors) {
+      if (errors.length > 0) {
         throw new BadRequestError(errors);
       }
     };
