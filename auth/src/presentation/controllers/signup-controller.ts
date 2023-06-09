@@ -5,8 +5,8 @@ import {
 import { ISignUp, ISignUpDTO } from "../../domain/useCases/signup";
 import { IFindAccountByEmail } from "../../domain/useCases/find-account-by-email";
 import { AnyHttpError } from "@litee-blog/shared/presentation/errors";
-import { Amqp } from "@litee-blog/shared/infra/broker/amqpliib";
 import { amqp } from "../..";
+import { EventNames, AccountCreated } from "@litee-blog/shared/infra/broker";
 export class SignUpController implements IController {
   constructor(
     private readonly findByEmail: IFindAccountByEmail,
@@ -18,7 +18,12 @@ export class SignUpController implements IController {
       throw new AnyHttpError(409, "Email already in use.");
     }
     const { _id, email, name, secret } = await this.createAccount.signup(data);
-    amqp.publish("account:created", { _id, email, name, secret });
+    amqp.publish<AccountCreated>(EventNames.AccountCreated, {
+      _id,
+      email,
+      name,
+      secret,
+    });
     return { status: 201, body: "Account created!" };
   }
 }
