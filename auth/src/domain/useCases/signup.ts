@@ -8,6 +8,7 @@ export interface ISignUpDTO {
   password: string;
   email: string;
 }
-export interface ISignupResponse extends IAccount {
+export interface ISignupResponse extends ISignUpDTO {
   secret: string;
+  _id;
 }
