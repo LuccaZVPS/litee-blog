@@ -9,6 +9,9 @@ export const adaptRoute = (controller: IController) => {
       userId: req.userId,
     };
     const httpResponse = await controller.handle(request);
+    httpResponse.cookies?.forEach((c) => {
+      res.set(c.name, c.value);
+    });
     res.status(httpResponse.status).json(httpResponse.body);
   };
 };
