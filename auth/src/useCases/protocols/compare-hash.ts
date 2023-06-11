@@ -1,3 +1,3 @@
 export interface ICompareHash {
-  compare(hash: string): boolean;
+  compare(password: string, hash: string): boolean;
 }

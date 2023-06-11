@@ -14,7 +14,7 @@ export class SignIn implements ISignIn {
     if (!account) {
       return;
     }
-    if (!this.compareHash.compare(account.password)) {
+    if (!this.compareHash.compare(password, account.password)) {
       return;
     }
     return this.encrypter.encrypt({ accountId: account._id });
