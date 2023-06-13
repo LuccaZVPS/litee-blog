@@ -1,14 +1,6 @@
-import { IsString, MinLength, validate } from "class-validator";
+import { validate } from "class-validator";
 import { BadRequestError, ISerializeError } from "../errors";
-import { NextFunction, Request, Response } from "express";
-class TesteDTO {
-  constructor() {
-    this.name = "";
-  }
-  @IsString()
-  @MinLength(10)
-  name: string;
-}
+
 export class ValidationMiddleware {
   async validator(data: any): Promise<ISerializeError[]> {
     const validationErrors = await validate(data);
