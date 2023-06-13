@@ -2,7 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import { middlewareValidator } from "../../presentation/middlewares";
 import { authMiddleware } from "../../presentation/middlewares/auth-middleware";
 
-export const adaptMiddeware = (middleware: (dto: any) => Promise<void>) => {
+export const adaptMiddeware = (
+  middleware: (dto: any, res: any) => Promise<void>
+) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const request = {
       ...(req.body || {}),
@@ -10,10 +12,10 @@ export const adaptMiddeware = (middleware: (dto: any) => Promise<void>) => {
       userId: req.accountId,
       cookies: req.cookies,
     };
-    await middleware(request);
+    await middleware(request, req);
     next();
   };
 };
+export const authorizedMiddleware = () => adaptMiddeware(authMiddleware.handle);
 export const validateBodyMiddleware = (dto: any) =>
   adaptMiddeware(middlewareValidator.handle(dto));
-export const authorizedMiddleware = () => adaptMiddeware(authMiddleware.handle);
