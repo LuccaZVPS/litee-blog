@@ -1,18 +1,18 @@
-import { NextFunction, Request, Response } from "express";
+import { Request } from "express";
 import { Unauthorized } from "../errors";
 import { verify } from "jsonwebtoken";
 export class AuthMiddleware {
-  async handle(req: Request) {
+  async handle(body: any, req: Request) {
     try {
-      const jwt = req.cookies?.jwt;
+      const jwt = body.cookies?.jwt;
       if (!jwt) {
         throw new Unauthorized("Unauthorized!");
       }
-      const decodedJWT = verify(jwt, process.env.jWT_SECRET as string) as any;
-      if (!decodedJWT || !decodedJWT._id) {
+      const decodedJWT = verify(jwt, process.env.JWT_SECRET as string) as any;
+      if (!decodedJWT || !decodedJWT.accountId) {
         throw new Unauthorized("Unauthorized");
       }
-      req.accountId = decodedJWT._id;
+      req.accountId = decodedJWT.accountId;
     } catch (e) {
       throw new Unauthorized("Unauthorized");
     }

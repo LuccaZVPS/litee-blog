@@ -1,5 +1,6 @@
 import { validate } from "class-validator";
 import { BadRequestError, ISerializeError } from "../errors";
+import { Response } from "express";
 
 export class ValidationMiddleware {
   async validator(data: any): Promise<ISerializeError[]> {
@@ -21,11 +22,11 @@ export class ValidationMiddleware {
     return errors;
   }
   handle(dto: any) {
-    return async (req: any) => {
+    return async (body: any) => {
       const instancedDTO = new dto();
       for (const field in instancedDTO) {
-        if (req[field]) {
-          instancedDTO[field] = req[field];
+        if (body[field]) {
+          instancedDTO[field] = body[field];
         }
       }
       const errors = await this.validator(instancedDTO);
