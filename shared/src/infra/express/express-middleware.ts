@@ -8,6 +8,7 @@ export const adaptMiddeware = (middleware: (dto: any) => Promise<void>) => {
       ...(req.body || {}),
       ...(req.params || {}),
       userId: req.accountId,
+      cookies: req.cookies,
     };
     await middleware(request);
     next();
