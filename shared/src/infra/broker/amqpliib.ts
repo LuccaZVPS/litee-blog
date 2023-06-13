@@ -6,7 +6,7 @@ export class Amqp {
     this.connection = await connect(url);
     this.channel = await this.connection.createConfirmChannel();
   }
-  async publish(queue: string, data: object) {
+  async publish<T>(queue: string, data: T) {
     await this.channel.assertQueue(queue, { durable: true });
     this.channel.sendToQueue(queue, Buffer.from(JSON.stringify(data)), {
       persistent: true,

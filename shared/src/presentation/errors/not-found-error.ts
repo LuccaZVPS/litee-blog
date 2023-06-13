@@ -13,6 +13,6 @@ export class NotFoundError extends BaseError {
   }
 }
 export interface ISerializeError {
-  message: string;
+  message: string | string[];
   field?: string;
 }
