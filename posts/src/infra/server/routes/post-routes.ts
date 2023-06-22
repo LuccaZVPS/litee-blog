@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { resolve } from "path";
 import {
   adaptRoute,
   fileMiddleware,
@@ -7,16 +8,17 @@ import {
 import { addPostControllerFactory } from "../../../main/factories/controllers/add-post-controller-factory";
 import { AddPostDTO } from "../../../presentation/DTOs/add-post-dto";
 const router = Router();
-
+const rootDirectory = resolve(__dirname, "../../../../");
 router.post(
   "/",
-  validateBodyMiddleware(AddPostDTO),
   fileMiddleware({
     allowedExtensions: ["png", "jpeg", "jpg"],
     limit: 5242880,
-    dest: "./uploads",
-    tmpFolder: "",
+    dest: rootDirectory + "/uploads",
+    tmpFolder: rootDirectory + "/tmp",
   }),
+  validateBodyMiddleware(AddPostDTO),
+
   adaptRoute(addPostControllerFactory())
 );
 

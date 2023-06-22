@@ -73,5 +73,7 @@ interface props {
   limit: number;
   allowedExtensions: string[];
 }
-export const fileMiddleware = (props: props) =>
-  new FileMiddleware(props).handle.bind(FileMiddleware);
+export const fileMiddleware = (props: props) => {
+  const middleware = new FileMiddleware(props);
+  return middleware.handle.bind(middleware);
+};
