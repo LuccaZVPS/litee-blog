@@ -1,4 +1,4 @@
-import { IPosts } from "../entities/posts";
+import { IPosts } from "../entities/post";
 
 export interface IAddPost {
   add(postDTO: IAddPostDTO): Promise<IPosts>;
