@@ -1,7 +1,5 @@
 import { validate } from "class-validator";
 import { BadRequestError, ISerializeError } from "../errors";
-import { Response } from "express";
-
 export class ValidationMiddleware {
   async validator(data: any): Promise<ISerializeError[]> {
     const validationErrors = await validate(data);
