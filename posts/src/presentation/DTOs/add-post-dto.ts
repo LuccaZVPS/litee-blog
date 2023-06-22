@@ -10,7 +10,7 @@ export class AddPostDTO {
   constructor() {
     this.title = "";
     this.content = "";
-    this.imageName = "";
+    this.file = { fileName: "" };
     this.accountId = "";
     this.categories = [];
   }
@@ -20,7 +20,7 @@ export class AddPostDTO {
   @IsString()
   @Length(300, 15000)
   content: string;
-  imageName: string;
+  file: { fileName: string };
   accountId: string;
   @IsArray()
   @ArrayMaxSize(3)
