@@ -2,6 +2,7 @@ export enum EventNames {
   AccountCreated = "account:created",
   CategoryCreated = "category:created",
   CategoryDeleted = "category:deleted",
+  CategoryUpdated = "category:updated",
 }
 export interface AccountCreated {
   _id: string;

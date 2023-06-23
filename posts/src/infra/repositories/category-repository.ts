@@ -12,4 +12,29 @@ export class CategoryRepository implements IFindCategoriesRepository {
     }
     return true;
   }
+  async add(title: string, id: string) {
+    await prisma.category.create({
+      data: {
+        title,
+        id,
+      },
+    });
+  }
+  async delete(id: string) {
+    await prisma.category.delete({
+      where: {
+        id,
+      },
+    });
+  }
+  async update(id: string, title: string) {
+    await prisma.category.update({
+      where: {
+        id,
+      },
+      data: {
+        title,
+      },
+    });
+  }
 }
