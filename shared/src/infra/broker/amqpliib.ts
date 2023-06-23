@@ -7,7 +7,6 @@ export class Amqp {
     this.channel = await this.connection.createConfirmChannel();
   }
   async publish<T>(queue: string, data: T) {
-    await this.channel.assertQueue(queue, { durable: true });
     this.channel.sendToQueue(queue, Buffer.from(JSON.stringify(data)), {
       persistent: true,
     });
@@ -22,5 +21,8 @@ export class Amqp {
       await cb(data);
       this.channel.ack(msg);
     });
+  }
+  async assertQueue(queue: string) {
+    await this.channel.assertQueue(queue, { durable: true });
   }
 }
