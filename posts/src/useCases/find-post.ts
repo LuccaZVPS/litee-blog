@@ -6,8 +6,9 @@ export class FindPost implements IFindPost {
   constructor(private readonly findPostsRepository: IFindPostRepository) {}
   async find(
     filters: IFindPostFilters,
-    page: number
+    page: number,
+    full?: boolean
   ): Promise<{ posts: IPost[]; totalPages: number }> {
-    return await this.findPostsRepository.find(filters, page);
+    return await this.findPostsRepository.find(filters, page, full);
   }
 }

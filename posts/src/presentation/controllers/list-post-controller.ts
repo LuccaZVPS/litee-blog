@@ -3,11 +3,11 @@ import {
   IResponse,
 } from "@litee-blog/shared/presentation/protocols";
 import { IFindPost } from "../../domnain/useCases/find-post";
-import { FindPostDTO } from "../DTOs/find-post-dto";
+import { ListPostDTO } from "../DTOs/list-post-dto";
 
-export class FindPostController implements IController {
+export class ListPostController implements IController {
   constructor(private readonly findPosts: IFindPost) {}
-  async handle(req: FindPostDTO): Promise<IResponse> {
+  async handle(req: ListPostDTO): Promise<IResponse> {
     const { page } = req;
     const { posts, totalPages } = await this.findPosts.find(
       {

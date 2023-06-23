@@ -3,7 +3,8 @@ import { IPost } from "../entities/post";
 export interface IFindPost {
   find(
     filters: IFindPostFilters,
-    page: number
+    page: number,
+    full?: boolean
   ): Promise<{ posts: IPost[]; totalPages: number }>;
 }
 export interface IFindPostFilters {

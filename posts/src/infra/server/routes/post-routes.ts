@@ -10,8 +10,10 @@ import { addPostControllerFactory } from "../../../main/factories/controllers/ad
 import { AddPostDTO } from "../../../presentation/DTOs/add-post-dto";
 import { deletePostControllerFactory } from "../../../main/factories/controllers/delete-post-controller-factory";
 import { DeletePostDTO } from "../../../presentation/DTOs/delete-post-dto";
-import { FindPostDTO } from "../../../presentation/DTOs/find-post-dto";
-import { findPostControllerFactory } from "../../../main/factories/controllers/find-post-controller-factory";
+import { ListPostDTO } from "../../../presentation/DTOs/list-post-dto";
+import { listPostControllerFactory } from "../../../main/factories/controllers/list-post-controller-factory";
+import { GetPostDTO } from "../../../presentation/DTOs/get-post-dto";
+import { getPostControllerFactory } from "../../../main/factories/controllers/get-post-controller-factory";
 const router = Router();
 const rootDirectory = resolve(__dirname, "../../../../");
 router.post(
@@ -34,8 +36,13 @@ router.delete(
   adaptRoute(deletePostControllerFactory())
 );
 router.get(
-  "/:page",
-  validateBodyMiddleware(FindPostDTO),
-  adaptRoute(findPostControllerFactory())
+  "/list/:page",
+  validateBodyMiddleware(ListPostDTO),
+  adaptRoute(listPostControllerFactory())
+);
+router.get(
+  "/:id",
+  validateBodyMiddleware(GetPostDTO),
+  adaptRoute(getPostControllerFactory())
 );
 export { router };

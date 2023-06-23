@@ -1,5 +1,5 @@
 import { IsUUID, IsOptional } from "class-validator";
-export class FindPostDTO {
+export class ListPostDTO {
   @IsUUID()
   @IsOptional()
   ownerId?: string;
