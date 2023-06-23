@@ -1,7 +1,9 @@
+import { DTO } from "@litee-blog/shared/presentation";
 import { IsUUID } from "class-validator";
 
-export class DeleteCategoryDTO {
+export class DeleteCategoryDTO extends DTO {
   constructor() {
+    super();
     this.id = "";
   }
   @IsUUID()

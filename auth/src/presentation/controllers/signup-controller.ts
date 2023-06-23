@@ -2,13 +2,21 @@ import {
   IController,
   IResponse,
 } from "@litee-blog/shared/presentation/protocols";
-import { ISignUp, ISignUpDTO } from "../../domain/useCases/signup";
+import { ISignUp } from "../../domain/useCases/signup";
 import { amqp } from "../..";
 import { EventNames, AccountCreated } from "@litee-blog/shared/infra/broker";
-import { AnyHttpError } from "@litee-blog/shared/presentation/errors";
+import {
+  AnyHttpError,
+  BadRequestError,
+} from "@litee-blog/shared/presentation/errors";
+import { SignUpDTO } from "./DTOs/signup-dto";
 export class SignUpController implements IController {
   constructor(private readonly createAccount: ISignUp) {}
-  async handle(data: ISignUpDTO): Promise<IResponse> {
+  async handle(data: SignUpDTO): Promise<IResponse> {
+    const errors = data.validationErrors;
+    if (errors.length > 0) {
+      throw new BadRequestError(errors);
+    }
     const account = await this.createAccount.signup(data);
     if (!account) {
       throw new AnyHttpError(409, "Email already in use.");

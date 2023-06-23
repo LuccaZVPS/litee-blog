@@ -1,3 +1,4 @@
+import { DTO } from "@litee-blog/shared/presentation";
 import {
   IsEmail,
   IsString,
@@ -5,8 +6,9 @@ import {
   MaxLength,
   MinLength,
 } from "class-validator";
-export class VerifyAccountDTO {
+export class VerifyAccountDTO extends DTO {
   constructor() {
+    super();
     this.id = "";
     this.secret = "";
   }

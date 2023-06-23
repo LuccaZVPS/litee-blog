@@ -3,18 +3,27 @@ import { addCategoryControllerFactory } from "../../main/factories/controllers/a
 import {
   adaptRoute,
   authorizedMiddleware,
+  fileMiddleware,
   validateBodyMiddleware,
 } from "@litee-blog/shared/infra/express";
 import { AddCategoryDTO } from "../../presentation/DTOs/add-category-dto";
 import { DeleteCategoryDTO } from "../../presentation/DTOs/delete-category-dto";
 import { deleteCategoryControllerFactory } from "../../main/factories/controllers/delete-category-controller-factory";
 import { listCategoryControllerFactory } from "../../main/factories/controllers/list-category-controller-factory";
+import { resolve } from "path";
 const router = Router();
+const rootDirectory = resolve(__dirname, "../../../");
 
 router.post(
   "/",
   authorizedMiddleware(),
   validateBodyMiddleware(AddCategoryDTO),
+  fileMiddleware({
+    allowedExtensions: ["png", "jpeg", "jpg"],
+    limit: 5242880,
+    dest: rootDirectory + "/uploads",
+    tmpFolder: rootDirectory + "/tmp",
+  }),
   adaptRoute(addCategoryControllerFactory())
 );
 router.delete(

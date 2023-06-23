@@ -7,6 +7,7 @@ export const adaptRoute = (controller: IController) => {
       ...(req.params || {}),
       accountId: req.accountId,
       file: req.file || {},
+      validationErrors: req.validationErrors,
     };
     const httpResponse = await controller.handle(request);
     httpResponse.cookies?.forEach((c) => {

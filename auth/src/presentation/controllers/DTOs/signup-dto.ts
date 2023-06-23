@@ -1,6 +1,8 @@
+import { DTO } from "@litee-blog/shared/presentation";
 import { IsEmail, IsString, Length } from "class-validator";
-export class SignUpDTO {
+export class SignUpDTO extends DTO {
   constructor() {
+    super();
     this.email = "";
     this.name = "";
     this.password = "";

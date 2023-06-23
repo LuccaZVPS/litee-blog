@@ -6,8 +6,10 @@ import {
   ArrayUnique,
   Length,
 } from "class-validator";
-export class AddPostDTO {
+import { DTO } from "@litee-blog/shared/presentation";
+export class AddPostDTO extends DTO {
   constructor() {
+    super();
     this.title = "";
     this.content = "";
     this.file = { filename: "" };

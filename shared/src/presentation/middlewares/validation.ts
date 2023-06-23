@@ -19,8 +19,8 @@ export class ValidationMiddleware {
     });
     return errors;
   }
-  handle(dto: any, req: any) {
-    return async (body: any) => {
+  handle(dto: any) {
+    return async (body: any, req: any) => {
       const instancedDTO = new dto();
       for (const field in instancedDTO) {
         if (body[field]) {

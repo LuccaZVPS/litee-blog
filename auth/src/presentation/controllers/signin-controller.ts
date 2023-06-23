@@ -3,11 +3,19 @@ import {
   IResponse,
 } from "@litee-blog/shared/presentation/protocols";
 import { ISignIn } from "../../domain/useCases/signin";
-import { Unauthorized } from "@litee-blog/shared/presentation/errors";
+import {
+  BadRequestError,
+  Unauthorized,
+} from "@litee-blog/shared/presentation/errors";
+import { SignInDTO } from "./DTOs/signin-dto";
 
 export class SignInController implements IController {
   constructor(private readonly authentication: ISignIn) {}
-  async handle(req: any): Promise<IResponse> {
+  async handle(req: SignInDTO): Promise<IResponse> {
+    const errors = req.validationErrors;
+    if (errors.length > 0) {
+      throw new BadRequestError(errors);
+    }
     const { email, password } = req;
     const jwtToken = await this.authentication.signIn(email, password);
     if (!jwtToken) {
