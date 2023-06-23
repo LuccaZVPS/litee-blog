@@ -1,9 +1,6 @@
 import { ICategory } from "../../domain/entities/category";
+import { ICategoryFilters } from "../../domain/useCases/get-category";
 
 export interface IFindCategoryRepository {
   find(filters: ICategoryFilters): Promise<ICategory[]>;
-}
-export interface ICategoryFilters {
-  _id?: string;
-  title?: string;
 }

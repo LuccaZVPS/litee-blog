@@ -1,10 +1,8 @@
 import { ICategory } from "../../domain/entities/category";
 import { IDeleteCategory } from "../../domain/useCases/delete-category";
+import { ICategoryFilters } from "../../domain/useCases/get-category";
 import { IAddCategoryRepository } from "../../useCases/protocols/add-category-repository";
-import {
-  ICategoryFilters,
-  IFindCategoryRepository,
-} from "../../useCases/protocols/find-category-repository";
+import { IFindCategoryRepository } from "../../useCases/protocols/find-category-repository";
 import { categoryModel } from "./models/repository-model";
 
 export class CategoryResitory
