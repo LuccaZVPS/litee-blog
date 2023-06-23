@@ -9,14 +9,17 @@ export class DeletePost implements IDeletePost {
     private readonly deletePostRepository: IDeletePostRepository
   ) {}
   async delete(postId: string, accountId: string): Promise<void> {
-    const postFound = await this.findPostRepository.find({
-      accountId,
-      id: postId,
-    });
-    if (postFound.length == 0) {
+    const { posts } = await this.findPostRepository.find(
+      {
+        accountId,
+        id: postId,
+      },
+      1
+    );
+    if (posts.length == 0) {
       throw new NotFoundError("Post not found");
     }
-    await this.deletePostRepository.delete(postFound[0].id);
-    fs.unlinkSync(postFound[0].imagePath);
+    await this.deletePostRepository.delete(posts[0].id);
+    fs.unlinkSync(posts[0].imagePath);
   }
 }
