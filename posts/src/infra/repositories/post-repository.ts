@@ -30,7 +30,8 @@ export class PostRepository
 
   async find(
     filters: IFindPostFilters,
-    page: number
+    page: number,
+    full?: boolean
   ): Promise<{ posts: IPost[]; totalPages: number }> {
     const POSTS_PER_PAGE = 10;
     const totalPosts = await prisma.post.count({ where: { ...filters } });
@@ -42,6 +43,15 @@ export class PostRepository
       },
       skip: (page - 1) * POSTS_PER_PAGE,
       take: POSTS_PER_PAGE,
+      select: {
+        content: full || false,
+        accountId: true,
+        id: true,
+        imagePath: true,
+        title: true,
+        imageName: true,
+        categories: true,
+      },
     })) as unknown as IPost[];
 
     return { posts, totalPages };
