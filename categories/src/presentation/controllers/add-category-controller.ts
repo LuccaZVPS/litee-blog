@@ -5,12 +5,21 @@ import {
 import { IAddCategory } from "../../domain/useCases/add-category";
 import { AddCategoryDTO } from "../DTOs/add-category-dto";
 import fs from "fs";
+import { amqp } from "../..";
+import { EventNames, CategoryCreated } from "@litee-blog/shared/infra/broker";
 export class AddCategoryController implements IController {
   constructor(private readonly addCategory: IAddCategory) {}
   async handle(req: AddCategoryDTO): Promise<IResponse> {
     // eslint-disable-next-line no-useless-catch
     try {
-      const { _id } = await this.addCategory.add(req.title, req.file.filename);
+      const { _id, title } = await this.addCategory.add(
+        req.title,
+        req.file.filename
+      );
+      amqp.publish(EventNames.CategoryCreated, {
+        id: _id,
+        title,
+      } as CategoryCreated);
       return { status: 201, body: { id: _id } };
     } catch (e) {
       fs.unlinkSync(req.file.filename);
