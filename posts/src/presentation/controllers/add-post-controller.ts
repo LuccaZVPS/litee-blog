@@ -11,13 +11,14 @@ export class AddPostController implements IController {
   async handle(req: AddPostDTO): Promise<IResponse> {
     try {
       const { title, content, categories, accountId, file } = req;
-      const filenameContent = file.filename.split("/");
+      const imageNameFields = file.filename.split("/");
       const post = await this.addPost.add({
         title,
         categories,
         content,
         accountId,
-        imageName: filenameContent[filenameContent.length - 1],
+        imageName: imageNameFields[imageNameFields.length - 1],
+        imagePath: file.filename,
       });
       return { status: 201, body: { id: post.id } };
     } catch (e: unknown) {

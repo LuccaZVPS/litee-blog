@@ -12,7 +12,8 @@ model Post {
   title     String
   content   String     @db.VarChar(15000)
   accountId String
-  imageId   String
+  imagePath   String
+  imageName   String
   categories Category[]
 }
 model Category {
