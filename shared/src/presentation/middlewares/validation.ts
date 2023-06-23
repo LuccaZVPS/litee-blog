@@ -1,5 +1,5 @@
 import { validate } from "class-validator";
-import { BadRequestError, ISerializeError } from "../errors";
+import { ISerializeError } from "../errors";
 export class ValidationMiddleware {
   async validator(data: any): Promise<ISerializeError[]> {
     const validationErrors = await validate(data);
@@ -19,7 +19,7 @@ export class ValidationMiddleware {
     });
     return errors;
   }
-  handle(dto: any) {
+  handle(dto: any, req: any) {
     return async (body: any) => {
       const instancedDTO = new dto();
       for (const field in instancedDTO) {
@@ -28,9 +28,7 @@ export class ValidationMiddleware {
         }
       }
       const errors = await this.validator(instancedDTO);
-      if (errors.length > 0) {
-        throw new BadRequestError(errors);
-      }
+      req.validationErrors = errors;
     };
   }
 }
