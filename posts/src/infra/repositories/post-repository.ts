@@ -34,12 +34,17 @@ export class PostRepository
     full?: boolean
   ): Promise<{ posts: IPost[]; totalPages: number }> {
     const POSTS_PER_PAGE = 10;
+    const categoryId = filters.categoryId;
+    delete filters.categoryId;
     const totalPosts = await prisma.post.count({ where: { ...filters } });
     const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
-
     const posts = (await prisma.post.findMany({
       where: {
-        ...filters,
+        categories: {
+          some: {
+            id: categoryId,
+          },
+        },
       },
       skip: (page - 1) * POSTS_PER_PAGE,
       take: POSTS_PER_PAGE,

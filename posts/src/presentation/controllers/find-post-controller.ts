@@ -9,8 +9,14 @@ export class FindPostController implements IController {
   constructor(private readonly findPosts: IFindPost) {}
   async handle(req: FindPostDTO): Promise<IResponse> {
     const { page } = req;
-
-    const { posts, totalPages } = await this.findPosts.find({}, page);
+    const { posts, totalPages } = await this.findPosts.find(
+      {
+        accountId: req.ownerId,
+        id: req.id,
+        categoryId: req.categoryId,
+      },
+      page
+    );
     return { status: 200, body: { posts, totalPages } };
   }
 }
