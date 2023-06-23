@@ -4,7 +4,7 @@ import { verify } from "jsonwebtoken";
 export class AuthMiddleware {
   async handle(body: any, req: Request) {
     try {
-      const jwt = body.cookies?.jwt;
+      const jwt = req.session?.jwt;
       if (!jwt) {
         throw new Unauthorized("Unauthorized!");
       }

@@ -10,8 +10,12 @@ export const adaptRoute = (controller: IController) => {
     };
     const httpResponse = await controller.handle(request);
     httpResponse.cookies?.forEach((c) => {
-      res.setHeader("Set-Cookie", `${c.name}=${c.value}`);
+      req.session = {
+        ...req.session,
+        [c.name]: c.value,
+      };
     });
+
     res.status(httpResponse.status).json(httpResponse.body);
   };
 };
