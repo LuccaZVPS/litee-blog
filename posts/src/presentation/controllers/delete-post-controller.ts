@@ -9,6 +9,7 @@ export class DeletePostController implements IController {
   constructor(private readonly deletePost: IDeletePost) {}
   async handle(req: DeletePostDTO): Promise<IResponse> {
     await this.deletePost.delete(req.id, req.accountId);
+
     return { status: 200, body: "Post deleted!" };
   }
 }

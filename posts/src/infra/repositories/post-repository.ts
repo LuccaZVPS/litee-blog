@@ -2,16 +2,24 @@ import { prisma } from "../..";
 import { IPost } from "../../domnain/entities/post";
 import { IAddPostDTO } from "../../domnain/useCases/add-post";
 import { IAddPostRepository } from "../../useCases/protocols/add-post-repository";
+import { IDeletePostRepository } from "../../useCases/protocols/delete-post-repository";
+import {
+  IFindPostFilters,
+  IFindPostRepository,
+} from "../../useCases/protocols/find-post-repository";
 
-export class PostRepository implements IAddPostRepository {
+export class PostRepository
+  implements IAddPostRepository, IFindPostRepository, IDeletePostRepository
+{
   async add(dto: IAddPostDTO): Promise<IPost> {
-    const { accountId, categories, content, imageName, title } = dto;
+    const { accountId, categories, content, imagePath, title, imageName } = dto;
     const post = await prisma.post.create({
       data: {
         accountId,
         content,
         title,
-        imageId: imageName,
+        imagePath,
+        imageName,
         categories: {
           connect: categories.map((c) => {
             return { id: c };
@@ -20,5 +28,19 @@ export class PostRepository implements IAddPostRepository {
       },
     });
     return post as unknown as IPost;
+  }
+  async find(filters: IFindPostFilters): Promise<IPost[]> {
+    return (await prisma.post.findMany({
+      where: {
+        ...filters,
+      },
+    })) as unknown as IPost[];
+  }
+  async delete(postId: string): Promise<void> {
+    await prisma.post.delete({
+      where: {
+        id: postId,
+      },
+    });
   }
 }

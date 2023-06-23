@@ -8,6 +8,8 @@ import {
 } from "@litee-blog/shared/infra/express";
 import { addPostControllerFactory } from "../../../main/factories/controllers/add-post-controller-factory";
 import { AddPostDTO } from "../../../presentation/DTOs/add-post-dto";
+import { deletePostControllerFactory } from "../../../main/factories/controllers/delete-post-controller-factory";
+import { DeletePostDTO } from "../../../presentation/DTOs/delete-post-dto";
 const router = Router();
 const rootDirectory = resolve(__dirname, "../../../../");
 router.post(
@@ -23,5 +25,10 @@ router.post(
 
   adaptRoute(addPostControllerFactory())
 );
-
+router.delete(
+  "/:id",
+  authorizedMiddleware(),
+  validateBodyMiddleware(DeletePostDTO),
+  adaptRoute(deletePostControllerFactory())
+);
 export { router };
