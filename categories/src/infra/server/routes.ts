@@ -17,13 +17,13 @@ const rootDirectory = resolve(__dirname, "../../../");
 router.post(
   "/",
   authorizedMiddleware(),
-  validateBodyMiddleware(AddCategoryDTO),
   fileMiddleware({
     allowedExtensions: ["png", "jpeg", "jpg"],
     limit: 5242880,
     dest: rootDirectory + "/uploads",
     tmpFolder: rootDirectory + "/tmp",
   }),
+  validateBodyMiddleware(AddCategoryDTO),
   adaptRoute(addCategoryControllerFactory())
 );
 router.delete(

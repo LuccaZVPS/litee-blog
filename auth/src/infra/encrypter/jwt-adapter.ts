@@ -1,4 +1,4 @@
-import { IEncrypter } from "../../useCases/protocols/encrypter";
+import { IEncrypter } from "../../../../auth/src/useCases/protocols/encrypter";
 import { sign } from "jsonwebtoken";
 import { config } from "dotenv";
 config();
