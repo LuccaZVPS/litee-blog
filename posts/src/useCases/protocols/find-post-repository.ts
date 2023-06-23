@@ -1,9 +1,9 @@
 import { IPost } from "../../domnain/entities/post";
+import { IFindPostFilters } from "../../domnain/useCases/find-post";
 
 export interface IFindPostRepository {
-  find(filters: IFindPostFilters): Promise<IPost[]>;
-}
-export interface IFindPostFilters {
-  id?: string;
-  accountId?: string;
+  find(
+    filters: IFindPostFilters,
+    page: number
+  ): Promise<{ posts: IPost[]; totalPages: number }>;
 }
