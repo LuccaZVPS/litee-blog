@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { app } from "./infra/server/app";
 import { Amqp } from "@litee-blog/shared/infra/broker/index";
-import { CategoryCreatedListener } from "./listners/category-created-listener";
-import { CategoryDeletedListener } from "./listners/category-deleted-listener";
-import { CategoryUpdatedListener } from "./listners/category-updated-listener";
+import { CategoryCreatedListener } from "./listeners/category-created-listener";
+import { CategoryDeletedListener } from "./listeners/category-deleted-listener";
+import { CategoryUpdatedListener } from "./listeners/category-updated-listener";
 export const prisma = new PrismaClient();
 export const amqp = new Amqp();
 const startup = async () => {

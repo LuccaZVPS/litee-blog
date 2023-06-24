@@ -56,6 +56,7 @@ export class PostRepository
         title: true,
         imageName: true,
         categories: true,
+        account: true,
       },
     })) as unknown as IPost[];
 
