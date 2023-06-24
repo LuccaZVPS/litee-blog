@@ -16,7 +16,9 @@ export const adaptRoute = (controller: IController) => {
         [c.name]: c.value,
       };
     });
-
+    if (httpResponse.file) {
+      return res.status(httpResponse.status).sendFile(httpResponse.file!);
+    }
     res.status(httpResponse.status).json(httpResponse.body);
   };
 };
