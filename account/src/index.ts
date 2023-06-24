@@ -1,4 +1,4 @@
-import { app } from "./infra/server/app";
+import { app } from "./app";
 import { Amqp } from "@litee-blog/shared/infra/broker/index";
 export const amqp = new Amqp();
 const startup = async () => {

@@ -8,12 +8,13 @@ class FileMiddleware {
   limit: number;
   allowedExtensions: string[];
   multerMiddleware: any;
+  customName?: (req: Request) => string;
   constructor(props: props) {
     this.tmpFolder = props.tmpFolder;
     this.dest = props.dest;
     this.limit = props.limit;
     this.allowedExtensions = props.allowedExtensions;
-
+    this.customName = props.customName;
     this.multerMiddleware = multer({
       storage: multer.diskStorage({
         destination: function (req, file, cb) {
@@ -22,7 +23,8 @@ class FileMiddleware {
         filename: function (req, file, cb) {
           const uniqueSuffix =
             Date.now() + "-" + Math.round(Math.random() * 1e9);
-          cb(null, file.fieldname + "-" + uniqueSuffix);
+          let filename = file.fieldname + "-" + uniqueSuffix;
+          cb(null, filename);
         },
       }),
       limits: { fileSize: this.limit },
@@ -58,7 +60,10 @@ class FileMiddleware {
         fs.unlink(req.file?.path as any, () => {});
         throw new BadRequestError([{ message: "Invalid file extension" }]);
       }
-      const fileName = this.dest + "/" + req.file?.filename + `.${type.ext}`;
+      let fileName = this.dest + "/" + req.file?.filename + `.${type.ext}`;
+      if (this.customName) {
+        fileName = this.dest + "/" + this.customName(req) + `.${type.ext}`;
+      }
       fs.renameSync(req.file?.path!, fileName);
       //@ts-ignore
       req.file.filename = fileName;
@@ -72,6 +77,7 @@ interface props {
   dest: string;
   limit: number;
   allowedExtensions: string[];
+  customName?: (req: Request) => string;
 }
 export const fileMiddleware = (props: props) => {
   const middleware = new FileMiddleware(props);
