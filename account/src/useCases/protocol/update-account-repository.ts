@@ -1,12 +1,8 @@
 export interface IUpdateAccountRepository {
-  update(params: IUpdateAccountParams): Promise<void>;
+  update(params: IUpdateAccountParams, _id: string): Promise<void>;
 }
-interface IUpdateAccountParams {
-  _id?: string;
+export interface IUpdateAccountParams {
   name?: string;
   imageName?: string;
   imagePath?: string;
-  where: {
-    _id: string;
-  };
 }

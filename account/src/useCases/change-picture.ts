@@ -9,16 +9,18 @@ export class ChangePicture implements IChangePicture {
     private readonly updateAccountRepository: IUpdateAccountRepository
   ) {}
   async change(accountId: string, newImagePath: string): Promise<void> {
-    const account = await this.findAccountRepository.find({ _id: accountId });
-    if (account.length !== 1) {
+    const account = await this.findAccountRepository.findOne(accountId);
+    if (!account) {
       throw new NotFoundError("Account not found");
     }
-    await this.updateAccountRepository.update({
-      where: { _id: accountId },
-      imagePath: newImagePath,
-      imageName: newImagePath.split("/")[newImagePath.split("/").length - 1],
-    });
-    fs.unlinkSync(account[0].imagePath);
+    await this.updateAccountRepository.update(
+      {
+        imagePath: newImagePath,
+        imageName: newImagePath.split("/")[newImagePath.split("/").length - 1],
+      },
+      accountId
+    );
+    fs.unlinkSync(account.imagePath);
     return;
   }
 }

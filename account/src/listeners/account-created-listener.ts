@@ -1,12 +1,12 @@
-import { amqp } from "..";
 import { EventNames, AccountCreated } from "@litee-blog/shared/infra/broker";
-import { AccountRepository } from "../infra/repositories/account-repository";
+import { amqp } from "..";
+import { AccountRepository } from "../infra/mongo/account-repository";
 const accountRepository = new AccountRepository();
 export class AccountCreatedListener {
-  static async listen() {
+  static listen() {
     amqp.listen(EventNames.AccountCreated, async (data: AccountCreated) => {
-      console.log(data);
-      await accountRepository.add(data._id, data.name);
+      console.log("a");
+      await accountRepository.add(data.name, data._id);
     });
   }
 }

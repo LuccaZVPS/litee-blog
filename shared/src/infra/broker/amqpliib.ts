@@ -1,28 +1,50 @@
-import { ConfirmChannel, Connection, connect, ConsumeMessage } from "amqplib";
-export class Amqp {
-  connection!: Connection;
-  channel!: ConfirmChannel;
-  async start(url: string): Promise<void> {
-    this.connection = await connect(url);
-    this.channel = await this.connection.createConfirmChannel();
+import { ConfirmChannel, Connection, ConsumeMessage } from "amqplib";
+
+export abstract class Event {
+  private channel!: ConfirmChannel;
+  private exchangeName: string;
+  private queue: string;
+  constructor(config: IEvent) {
+    this.exchangeName = config.exchange;
+    this.queue = `${config.service}/${config.exchange}`;
   }
-  async publish<T>(queue: string, data: T) {
-    this.channel.sendToQueue(queue, Buffer.from(JSON.stringify(data)), {
-      persistent: true,
+  async start(connection: Connection) {
+    this.channel = await connection.createConfirmChannel();
+    await this.channel.assertExchange(this.exchangeName, "fanout", {
+      durable: true,
     });
+    return this;
+  }
+
+  async publisher<T>(data: T) {
+    const message = Buffer.from(JSON.stringify(data));
+    this.channel.publish(this.exchangeName, "", message, { persistent: true });
     await this.channel.waitForConfirms();
   }
-  async listen<T>(queue: string, cb: (data: T) => Promise<void>) {
-    return this.channel.consume(queue, async (msg: ConsumeMessage | null) => {
-      if (!msg) {
-        return;
+
+  async listener<T>(cb: (data: T) => Promise<void>) {
+    await this.channel.assertQueue(this.queue, { durable: true });
+    await this.channel.bindQueue(this.queue, this.exchangeName, "");
+    return this.channel.consume(
+      this.queue,
+      async (msg: ConsumeMessage | null) => {
+        if (!msg) {
+          return;
+        }
+        try {
+          const data: T = JSON.parse(msg.content.toString());
+          await cb(data);
+          this.channel.ack(msg);
+        } catch (e) {
+          console.log(e);
+          this.channel.nack(msg);
+        }
       }
-      const data: T = JSON.parse(msg.content.toString());
-      await cb(data);
-      this.channel.ack(msg);
-    });
+    );
   }
-  async assertQueue(queue: string) {
-    await this.channel.assertQueue(queue, { durable: true });
-  }
+}
+
+interface IEvent {
+  exchange: string;
+  service: string;
 }

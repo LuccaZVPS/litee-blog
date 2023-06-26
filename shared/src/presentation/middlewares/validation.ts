@@ -3,7 +3,6 @@ import { ISerializeError } from "../errors";
 export class ValidationMiddleware {
   async validator(data: any): Promise<ISerializeError[]> {
     const validationErrors = await validate(data);
-    console.log(validationErrors);
     if (!validationErrors || validationErrors.length < 1) {
       return [];
     }

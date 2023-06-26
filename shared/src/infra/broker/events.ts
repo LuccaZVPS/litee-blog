@@ -4,6 +4,13 @@ export enum EventNames {
   CategoryDeleted = "category:deleted",
   CategoryUpdated = "category:updated",
 }
+export enum Services {
+  Account = "account",
+  Posts = "posts",
+  Mail = "mail",
+  Categories = "categories",
+  Auth = "auth",
+}
 export interface AccountCreated {
   _id: string;
   name: string;
