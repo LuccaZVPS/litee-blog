@@ -1,6 +1,3 @@
 export interface IChangePicture {
-  change(
-    accountId: string,
-    newImagePath: string
-  ): Promise<{ imageName: string }>;
+  change(accountId: string, newImagePath: string): Promise<void>;
 }
