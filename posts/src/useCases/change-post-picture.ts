@@ -13,25 +13,19 @@ export class ChangePostPicture implements IChangePostPicture {
     postId: string,
     newImagePath: string
   ): Promise<{ imageName: string }> {
-    // eslint-disable-next-line no-useless-catch
-    try {
-      const postFound = await this.findPostRepository.find(
-        { accountId, id: postId },
-        1,
-        false
-      );
-      if (postFound.posts.length !== 1) {
-        throw new NotFoundError("Post not found");
-      }
-      const { imageName } = await this.updatePostRepository.update(postId, {
-        imagePath: newImagePath,
-        imageName: newImagePath.split("/")[newImagePath.split("/").length - 1],
-      });
-      fs.unlinkSync(postFound.posts[0].imagePath);
-      return { imageName };
-    } catch (e) {
-      fs.unlinkSync(newImagePath);
-      throw e;
+    const postFound = await this.findPostRepository.find(
+      { accountId, id: postId },
+      1,
+      false
+    );
+    if (postFound.posts.length !== 1) {
+      throw new NotFoundError("Post not found");
     }
+    const { imageName } = await this.updatePostRepository.update(postId, {
+      imagePath: newImagePath,
+      imageName: newImagePath.split("/")[newImagePath.split("/").length - 1],
+    });
+    fs.unlinkSync(postFound.posts[0].imagePath);
+    return { imageName };
   }
 }

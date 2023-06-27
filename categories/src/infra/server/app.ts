@@ -17,5 +17,6 @@ app.use(
 );
 app.use(cookieParser());
 app.use("/api/categories", router);
+app.use("/api/categories/media", express.static("uploads"));
 app.use(errorHandler);
 export { app };

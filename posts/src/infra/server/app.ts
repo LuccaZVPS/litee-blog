@@ -1,4 +1,4 @@
-import express, { json } from "express";
+import express, { json, static as expressStatic } from "express";
 require("express-async-errors");
 import cookieParser from "cookie-parser";
 import { router } from "./routes/post-routes";
@@ -17,5 +17,6 @@ app.use(
 );
 app.use(cookieParser());
 app.use("/api/posts", router);
+app.use("/api/posts/media", expressStatic("uploads"));
 app.use(errorHandler);
 export { app };
