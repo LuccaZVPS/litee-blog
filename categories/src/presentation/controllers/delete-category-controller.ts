@@ -10,7 +10,7 @@ export class DeleteCategoryController implements IController {
   constructor(private readonly deleteCategory: IDeleteCategory) {}
   async handle(req: DeleteCategoryDTO): Promise<IResponse> {
     const errors = req.validationErrors;
-    if (errors.length > 0) {
+    if (errors && errors.length > 0) {
       throw new BadRequestError(errors);
     }
     await this.deleteCategory.delete(req.id);

@@ -13,7 +13,7 @@ export class SignInController implements IController {
   constructor(private readonly authentication: ISignIn) {}
   async handle(req: SignInDTO): Promise<IResponse> {
     const errors = req.validationErrors;
-    if (errors.length > 0) {
+    if (errors && errors.length > 0) {
       throw new BadRequestError(errors);
     }
     const { email, password } = req;

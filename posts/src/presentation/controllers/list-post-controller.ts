@@ -10,7 +10,7 @@ export class ListPostController implements IController {
   constructor(private readonly findPosts: IFindPost) {}
   async handle(req: ListPostDTO): Promise<IResponse> {
     const errors = req.validationErrors;
-    if (errors.length > 0) {
+    if (errors && errors.length > 0) {
       throw new BadRequestError(errors);
     }
     const { page } = req;

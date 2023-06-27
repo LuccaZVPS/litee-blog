@@ -10,7 +10,7 @@ export class DeletePostController implements IController {
   constructor(private readonly deletePost: IDeletePost) {}
   async handle(req: DeletePostDTO): Promise<IResponse> {
     const errors = req.validationErrors;
-    if (errors.length > 0) {
+    if (errors && errors.length > 0) {
       throw new BadRequestError(errors);
     }
     await this.deletePost.delete(req.id, req.accountId);

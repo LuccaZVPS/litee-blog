@@ -10,7 +10,7 @@ export class GetPostController implements IController {
   constructor(private readonly findPost: IFindPost) {}
   async handle(req: GetPostDTO): Promise<IResponse> {
     const errors = req.validationErrors;
-    if (errors.length > 0) {
+    if (errors && errors.length > 0) {
       throw new BadRequestError(errors);
     }
     const { posts } = await this.findPost.find({ id: req.id }, 1, true);

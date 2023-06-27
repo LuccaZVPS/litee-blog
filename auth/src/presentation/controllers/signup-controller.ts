@@ -9,7 +9,7 @@ export class SignUpController implements IController {
   constructor(private readonly createAccount: ISignUp) {}
   async handle(data: SignUpDTO): Promise<IResponse> {
     const errors = data.validationErrors;
-    if (errors.length > 0) {
+    if (errors && errors.length > 0) {
       throw new BadRequestError(errors);
     }
     await this.createAccount.signup(data);

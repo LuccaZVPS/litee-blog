@@ -12,7 +12,7 @@ export class AddCategoryController implements IController {
     // eslint-disable-next-line no-useless-catch
     try {
       const errors = req.validationErrors;
-      if (errors.length > 0) {
+      if (errors && errors.length > 0) {
         throw new BadRequestError(errors);
       }
       const { _id } = await this.addCategory.add(req.title, req.file.filename);

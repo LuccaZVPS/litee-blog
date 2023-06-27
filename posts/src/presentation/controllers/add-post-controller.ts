@@ -12,7 +12,7 @@ export class AddPostController implements IController {
   async handle(req: AddPostDTO): Promise<IResponse> {
     try {
       const errors = req.validationErrors;
-      if (errors.length > 0) {
+      if (errors && errors.length > 0) {
         throw new BadRequestError(errors);
       }
       const { title, content, categories, accountId, file } = req;
