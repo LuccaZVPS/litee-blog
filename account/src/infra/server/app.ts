@@ -16,7 +16,7 @@ app.use(
   })
 );
 app.use(cookieParser());
-app.use("/api/profile", router);
+app.use("/api/accounts", router);
 app.use("/api/accounts/media", express.static("uploads"));
 app.use(errorHandler);
 export { app };
