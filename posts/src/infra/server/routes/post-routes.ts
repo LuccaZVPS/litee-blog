@@ -16,6 +16,8 @@ import { GetPostDTO } from "../../../presentation/DTOs/get-post-dto";
 import { getPostControllerFactory } from "../../../main/factories/controllers/get-post-controller-factory";
 import { changePostPictureControllerFactory } from "../../../main/factories/controllers/change-post-picture-controller-factory";
 import { ChangePostPictureDTO } from "../../../presentation/DTOs/change-post-picture-dto";
+import { ChangePostDataDTO } from "../../../presentation/DTOs/change-post-data-dto";
+import { changePostDataControllerFactory } from "../../../main/factories/controllers/change-post-data-controller-factory";
 const router = Router();
 const rootDirectory = resolve(__dirname, "../../../../");
 router.post(
@@ -57,5 +59,11 @@ router.put(
   }),
   validateBodyMiddleware(ChangePostPictureDTO),
   adaptRoute(changePostPictureControllerFactory())
+);
+router.put(
+  "/:postId",
+  authorizedMiddleware(),
+  validateBodyMiddleware(ChangePostDataDTO),
+  adaptRoute(changePostDataControllerFactory())
 );
 export { router };
