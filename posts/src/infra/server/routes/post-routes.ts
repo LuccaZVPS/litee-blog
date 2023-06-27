@@ -14,6 +14,8 @@ import { ListPostDTO } from "../../../presentation/DTOs/list-post-dto";
 import { listPostControllerFactory } from "../../../main/factories/controllers/list-post-controller-factory";
 import { GetPostDTO } from "../../../presentation/DTOs/get-post-dto";
 import { getPostControllerFactory } from "../../../main/factories/controllers/get-post-controller-factory";
+import { changePostPictureControllerFactory } from "../../../main/factories/controllers/change-post-picture-controller-factory";
+import { ChangePostPictureDTO } from "../../../presentation/DTOs/change-post-picture-dto";
 const router = Router();
 const rootDirectory = resolve(__dirname, "../../../../");
 router.post(
@@ -43,5 +45,17 @@ router.get(
   "/:id",
   validateBodyMiddleware(GetPostDTO),
   adaptRoute(getPostControllerFactory())
+);
+router.put(
+  "/media/:postId",
+  authorizedMiddleware(),
+  fileMiddleware({
+    allowedExtensions: ["png", "jpeg", "jpg"],
+    limit: 5242880,
+    dest: rootDirectory + "/uploads",
+    tmpFolder: rootDirectory + "/tmp",
+  }),
+  validateBodyMiddleware(ChangePostPictureDTO),
+  adaptRoute(changePostPictureControllerFactory())
 );
 export { router };

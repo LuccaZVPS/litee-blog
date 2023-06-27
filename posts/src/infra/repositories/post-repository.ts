@@ -5,9 +5,17 @@ import { IFindPostFilters } from "../../domnain/useCases/find-post";
 import { IAddPostRepository } from "../../useCases/protocols/add-post-repository";
 import { IDeletePostRepository } from "../../useCases/protocols/delete-post-repository";
 import { IFindPostRepository } from "../../useCases/protocols/find-post-repository";
+import {
+  IUpdatePostRepository,
+  IUpdatePostRepositoryData,
+} from "../../useCases/protocols/update-post-repository";
 
 export class PostRepository
-  implements IAddPostRepository, IFindPostRepository, IDeletePostRepository
+  implements
+    IAddPostRepository,
+    IFindPostRepository,
+    IDeletePostRepository,
+    IUpdatePostRepository
 {
   async add(dto: IAddPostDTO): Promise<IPost> {
     const { accountId, categories, content, imagePath, title, imageName } = dto;
@@ -40,6 +48,9 @@ export class PostRepository
     const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
     const posts = (await prisma.post.findMany({
       where: {
+        AND: {
+          ...filters,
+        },
         categories: {
           some: {
             id: categoryId,
@@ -69,5 +80,16 @@ export class PostRepository
         id: postId,
       },
     });
+  }
+  async update(id: string, filters: IUpdatePostRepositoryData): Promise<IPost> {
+    const updatedPost = await prisma.post.update({
+      data: {
+        ...filters,
+      },
+      where: {
+        id,
+      },
+    });
+    return updatedPost as unknown as IPost;
   }
 }

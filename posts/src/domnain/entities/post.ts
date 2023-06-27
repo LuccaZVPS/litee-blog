@@ -6,6 +6,7 @@ export interface IPost {
   content: string;
   categories: ICategory[];
   imagePath: string;
+  imageName: string;
   account: {
     id: string;
     name: string;
