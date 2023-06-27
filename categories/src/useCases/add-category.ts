@@ -1,11 +1,21 @@
 import { ICategory } from "../domain/entities/category";
 import { IAddCategory } from "../domain/useCases/add-category";
+import { categoryCreatedPubliser } from "../events/publishers/category-created-publisher";
 import { IAddCategoryRepository } from "./protocols/add-category-repository";
-
+import { CategoryCreated } from "@litee-blog/shared/infra/broker";
 export class AddCategory implements IAddCategory {
   constructor(private readonly addCategoryRepository: IAddCategoryRepository) {}
   async add(title: string, imagePath: string): Promise<ICategory> {
     const filename = imagePath.split("/")[imagePath.split("/").length - 1];
-    return this.addCategoryRepository.add(title, imagePath, filename);
+    const category = await this.addCategoryRepository.add(
+      title,
+      imagePath,
+      filename
+    );
+    await categoryCreatedPubliser.publisher<CategoryCreated>({
+      id: category._id,
+      title: category.title,
+    });
+    return category;
   }
 }

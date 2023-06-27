@@ -1,11 +1,19 @@
-import { amqp } from "..";
-import { EventNames, CategoryDeleted } from "@litee-blog/shared/infra/broker";
+import {
+  EventNames,
+  Event,
+  CategoryDeleted,
+  Services,
+} from "@litee-blog/shared/infra/broker";
 import { CategoryRepository } from "../infra/repositories/category-repository";
 const categoryRepository = new CategoryRepository();
-export class CategoryDeletedListener {
-  static async listen() {
-    amqp.listen(EventNames.CategoryDeleted, async (data: CategoryDeleted) => {
+class CategoryDeletedListener extends Event {
+  constructor() {
+    super({ exchange: EventNames.CategoryDeleted, service: Services.Posts });
+  }
+  async listen() {
+    this.listener(async (data: CategoryDeleted) => {
       await categoryRepository.delete(data.id);
     });
   }
 }
+export const categoryDeletedListener = new CategoryDeletedListener();

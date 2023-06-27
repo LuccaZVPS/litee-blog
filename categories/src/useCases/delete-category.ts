@@ -3,6 +3,8 @@ import { IDeleteCategory } from "../domain/useCases/delete-category";
 import { IDeleteCategoryRepository } from "./protocols/delete-category-repository";
 import { IFindCategoryRepository } from "./protocols/find-category-repository";
 import fs from "fs";
+import { categoryDeletedPubliser } from "../events/publishers/category-deleted-publisher";
+import { CategoryDeleted } from "@litee-blog/shared/infra/broker";
 export class DeleteCategory implements IDeleteCategory {
   constructor(
     private readonly deleteCategoryRepository: IDeleteCategoryRepository,
@@ -15,5 +17,6 @@ export class DeleteCategory implements IDeleteCategory {
     }
     await this.deleteCategoryRepository.delete(id);
     fs.unlinkSync(categoryFound[0].imagePath);
+    await categoryDeletedPubliser.publisher<CategoryDeleted>({ id });
   }
 }

@@ -5,8 +5,6 @@ import {
 import { IAddCategory } from "../../domain/useCases/add-category";
 import { AddCategoryDTO } from "../DTOs/add-category-dto";
 import fs from "fs";
-import { amqp } from "../..";
-import { EventNames, CategoryCreated } from "@litee-blog/shared/infra/broker";
 import { BadRequestError } from "@litee-blog/shared/presentation";
 export class AddCategoryController implements IController {
   constructor(private readonly addCategory: IAddCategory) {}
@@ -17,14 +15,7 @@ export class AddCategoryController implements IController {
       if (errors.length > 0) {
         throw new BadRequestError(errors);
       }
-      const { _id, title } = await this.addCategory.add(
-        req.title,
-        req.file.filename
-      );
-      amqp.publish(EventNames.CategoryCreated, {
-        id: _id,
-        title,
-      } as CategoryCreated);
+      const { _id } = await this.addCategory.add(req.title, req.file.filename);
       return { status: 201, body: { id: _id } };
     } catch (e) {
       fs.unlinkSync(req.file.filename);
