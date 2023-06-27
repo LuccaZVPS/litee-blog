@@ -3,13 +3,8 @@ import {
   IResponse,
 } from "@litee-blog/shared/presentation/protocols";
 import { ISignUp } from "../../domain/useCases/signup";
-import { EventNames, AccountCreated } from "@litee-blog/shared/infra/broker";
-import {
-  AnyHttpError,
-  BadRequestError,
-} from "@litee-blog/shared/presentation/errors";
+import { BadRequestError } from "@litee-blog/shared/presentation/errors";
 import { SignUpDTO } from "./DTOs/signup-dto";
-import { accountCreatedPublisher } from "../../events/publishers/account-created-publisher";
 export class SignUpController implements IController {
   constructor(private readonly createAccount: ISignUp) {}
   async handle(data: SignUpDTO): Promise<IResponse> {
@@ -17,17 +12,8 @@ export class SignUpController implements IController {
     if (errors.length > 0) {
       throw new BadRequestError(errors);
     }
-    const account = await this.createAccount.signup(data);
-    if (!account) {
-      throw new AnyHttpError(409, "Email already in use.");
-    }
-    const { _id, email, name, secret } = account;
-    accountCreatedPublisher.publisher<AccountCreated>({
-      _id,
-      email,
-      name,
-      secret,
-    });
+    await this.createAccount.signup(data);
+
     return { status: 201, body: "Account created!" };
   }
 }

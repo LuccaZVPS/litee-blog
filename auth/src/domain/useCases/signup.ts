@@ -1,5 +1,5 @@
 export interface ISignUp {
-  signup(account: ISignUpDTO): Promise<ISignupResponse | void>;
+  signup(account: ISignUpDTO): Promise<ISignupResponse>;
 }
 export interface ISignUpDTO {
   name: string;

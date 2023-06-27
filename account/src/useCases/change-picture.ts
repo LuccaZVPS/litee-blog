@@ -10,6 +10,7 @@ export class ChangePicture implements IChangePicture {
   ) {}
   async change(accountId: string, newImagePath: string): Promise<void> {
     const account = await this.findAccountRepository.findOne(accountId);
+
     if (!account) {
       throw new NotFoundError("Account not found");
     }
@@ -20,7 +21,9 @@ export class ChangePicture implements IChangePicture {
       },
       accountId
     );
+    if (account.imagePath == "default.png") {
+      return;
+    }
     fs.unlinkSync(account.imagePath);
-    return;
   }
 }
