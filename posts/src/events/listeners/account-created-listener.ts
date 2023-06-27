@@ -4,7 +4,7 @@ import {
   Event,
   Services,
 } from "@litee-blog/shared/infra/broker";
-import { AccountRepository } from "../infra/repositories/account-repository";
+import { AccountRepository } from "../../infra/repositories/account-repository";
 const accountRepository = new AccountRepository();
 class AccountCreatedListener extends Event {
   constructor() {

@@ -25,4 +25,16 @@ export class AccountRepository implements ISaveAccount, IFindAccountByEmail {
       password: account.password,
     };
   }
+  async update(params: IUpdateAccountParams) {
+    await accountModel.updateOne({ _id: params._id }, { ...params.data });
+  }
+}
+
+interface IUpdateAccountParams {
+  _id: string;
+  data: {
+    name?: string;
+    email?: string;
+    password?: string;
+  };
 }

@@ -10,6 +10,7 @@ model Account {
     id        String     @id @default(uuid())
     name      String
     posts     Post[] 
+    imageName String  @default("default.png")
 }
 model Post {
   id        String     @id @default(uuid())

@@ -4,7 +4,7 @@ import {
   CategoryUpdated,
   Services,
 } from "@litee-blog/shared/infra/broker";
-import { CategoryRepository } from "../infra/repositories/category-repository";
+import { CategoryRepository } from "../../infra/repositories/category-repository";
 const categoryRepository = new CategoryRepository();
 class CategoryUpdatedListener extends Event {
   constructor() {
