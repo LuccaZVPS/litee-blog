@@ -1,14 +1,11 @@
-FROM node:14
+FROM node:16
 
 WORKDIR /app
 
 COPY . .
 
-RUN npm install && npm run build
-
-
-WORKDIR /app/dist/src
+RUN npm install && npx tsc
 
 EXPOSE 3000
 
-CMD ["node","index.js"]
+CMD ["node","build/index.js"]
