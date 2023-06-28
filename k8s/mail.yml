@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mail-database-srv
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mail-database
+  template:
+    metadata:
+      labels:
+        app: mail-database
+    spec:
+      containers:
+        - name: mail-database
+          image: mongo
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mail-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mail-pod
+  template:
+    metadata:
+      labels:
+        app: mail-pod
+    spec:
+      containers:
+        - name: mail
+          image: luccazvps/mail
+          imagePullPolicy: Always
+          env:
+            - name: EMAIL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: EMAIL_HOST
+            - name: EMAIL_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: EMAIL_PORT
+            - name: EMAIL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: EMAIL_USERNAME
+            - name: EMAIL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: EMAIL_PASSWORD
+            - name: CLIENT_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: CLIENT_DOMAIN
+            - name: PORT
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: PORT
+            - name: RABBITMQ_URL
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: RABBITMQ_URL
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mail-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: mail-pod
+  ports:
+    - port: 3000
+      targetPort: 3000
+      name: mail-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mail-database-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: mail-database
+  ports:
+    - port: 27017
+      protocol: TCP
+      targetPort: 27017
+      name: mail-port

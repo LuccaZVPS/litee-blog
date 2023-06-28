@@ -6,6 +6,6 @@ COPY . .
 
 RUN npm install && npx tsc
 
-EXPOSE 3000
+CMD npx prisma db push && node build/index.js
 
-CMD ["node","build/index.js"]
+EXPOSE 3000
