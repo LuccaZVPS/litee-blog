@@ -44,7 +44,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: secrets
-                  key: MONGO_URL
+                  key: MONGO_URL_AUTH
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:

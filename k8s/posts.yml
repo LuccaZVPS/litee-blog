@@ -17,9 +17,18 @@ spec:
           image: mysql
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: "1234"
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: MYSQL_ROOT_PASSWORD
             - name: MYSQL_DATABASE
-              value: "litee_posts"
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: MYSQL_DATABASE
+          ports:
+            - containerPort: 3306
+
 ---
 apiVersion: apps/v1
 kind: Deployment

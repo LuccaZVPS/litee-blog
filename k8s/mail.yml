@@ -1,24 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mail-database-srv
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: mail-database
-  template:
-    metadata:
-      labels:
-        app: mail-database
-    spec:
-      containers:
-        - name: mail-database
-          image: mongo
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
   name: mail-depl
 spec:
   replicas: 1
