@@ -3,10 +3,7 @@ import {
   IResponse,
 } from "@litee-blog/shared/presentation/protocols";
 import { IVerifyAccount } from "../../domain/useCases/verify-account";
-import {
-  BadRequestError,
-  ForbiddenError,
-} from "@litee-blog/shared/presentation/errors";
+import { BadRequestError } from "@litee-blog/shared/presentation/errors";
 import { VerifyAccountDTO } from "../DTOs/verify-account-dto";
 export class VerifyAccountController implements IController {
   constructor(private readonly verifyAccount: IVerifyAccount) {}
@@ -16,10 +13,7 @@ export class VerifyAccountController implements IController {
       throw new BadRequestError(errors);
     }
     const { id, secret } = req;
-    const verified = await this.verifyAccount.verify(id, secret);
-    if (!verified) {
-      throw new ForbiddenError("verification failed.");
-    }
+    await this.verifyAccount.verify(id, secret);
     return { status: 200, body: "Account verified" };
   }
 }

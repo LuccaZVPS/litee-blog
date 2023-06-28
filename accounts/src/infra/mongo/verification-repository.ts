@@ -19,8 +19,8 @@ export class VerificationRepository
   }
   async find(id: string): Promise<void | IVerification> {
     const verification = await verificationModel
-      .findOne({ _id: id })
-      .populate("accounts");
+      .findOne({ accountId: id })
+      .populate("account");
     if (!verification) {
       return;
     }

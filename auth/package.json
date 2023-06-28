@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@litee-blog/shared": "^1.3.4",
+    "@litee-blog/shared": "^1.3.6",
     "bcryptjs": "^2.4.3",
     "class-validator": "^0.14.0",
     "dotenv": "^16.1.4",

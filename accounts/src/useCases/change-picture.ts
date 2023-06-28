@@ -25,7 +25,7 @@ export class ChangePicture implements IChangePicture {
       },
       accountId
     );
-    if (account.imagePath == "default.png") {
+    if (account.imageName == "default.png") {
       return;
     }
     fs.unlinkSync(account.imagePath);

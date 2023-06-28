@@ -1,11 +1,7 @@
-import { ICompareHash } from "../../useCases/protocols/compare-hash";
 import { IPasswordHasher } from "../../useCases/protocols/password-hasher";
-import { hashSync, compareSync } from "bcryptjs";
-export class BcryptAdapter implements IPasswordHasher, ICompareHash {
+import { hashSync } from "bcryptjs";
+export class BcryptAdapter implements IPasswordHasher {
   hash(password: string): string {
     return hashSync(password);
-  }
-  compare(password: string, hash: string): boolean {
-    return compareSync(password, hash);
   }
 }

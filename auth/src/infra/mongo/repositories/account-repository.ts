@@ -18,6 +18,16 @@ export class AccountRepository implements IFindAccountByEmail {
   async update(params: IUpdateAccountParams) {
     await accountModel.updateOne({ _id: params._id }, { ...params.data });
   }
+  async save(params: {
+    email: string;
+    password: string;
+    name: string;
+    _id: string;
+  }) {
+    await accountModel.create({
+      ...params,
+    });
+  }
 }
 
 interface IUpdateAccountParams {
@@ -26,5 +36,6 @@ interface IUpdateAccountParams {
     name?: string;
     email?: string;
     password?: string;
+    verified?: boolean;
   };
 }
