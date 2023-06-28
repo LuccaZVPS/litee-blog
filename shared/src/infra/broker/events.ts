@@ -1,9 +1,10 @@
 export enum EventNames {
-  AccountCreated = "account:created",
+  AccountVerified = "account:verified",
   AccountUpdated = "account:updated",
   CategoryCreated = "category:created",
   CategoryDeleted = "category:deleted",
   CategoryUpdated = "category:updated",
+  AccountCreated = "account:created",
 }
 
 export enum Services {
@@ -18,6 +19,13 @@ export interface AccountCreated {
   name: string;
   email: string;
   secret: string;
+}
+
+export interface AccountVerified {
+  _id: string;
+  name: string;
+  email: string;
+  password: string;
 }
 export interface AccountUpdated {
   _id: string;
