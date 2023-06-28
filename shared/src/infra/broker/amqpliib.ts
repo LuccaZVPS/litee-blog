@@ -37,7 +37,6 @@ export abstract class Event {
           this.channel.ack(msg);
         } catch (e) {
           console.log(e);
-          this.channel.nack(msg);
         }
       }
     );
