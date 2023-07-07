@@ -5,6 +5,8 @@ import fs from "fs";
 import { accountUpdatedPublisher } from "../events/publishers/account-updated-publisher";
 import { AccountUpdated } from "@litee-blog/shared/infra/broker";
 import { IFindAccount } from "./protocols/find-account";
+import {resolve} from 'path'
+const UPLOADS_DIRECTORY = resolve(__dirname,"../../uploads")
 export class ChangePicture implements IChangePicture {
   constructor(
     private readonly findAccountRepository: IFindAccount,
@@ -28,9 +30,9 @@ export class ChangePicture implements IChangePicture {
     if (account.imageName == "default.png") {
       return;
     }
-    fs.unlinkSync(account.imagePath);
+    fs.unlinkSync(UPLOADS_DIRECTORY + "/" + account.imageName);
     await accountUpdatedPublisher.publisher<AccountUpdated>({
-      _id: account._id,
+      _id: account.id,
       data: {
         imageName,
       },

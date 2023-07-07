@@ -10,8 +10,8 @@ export class VerifyAccount implements IVerifyAccount {
     private readonly findVerification: IFindVerificationRepository,
     private readonly verifyAccountRepository: IVerifyAccountRepository
   ) {}
-  async verify(id: string, secret: string): Promise<void> {
-    const verification = await this.findVerification.find(id);
+  async verify(accountId: string, secret: string): Promise<void> {
+    const verification = await this.findVerification.find(accountId);
     if (
       !verification ||
       verification.secret !== secret ||
@@ -22,10 +22,10 @@ export class VerifyAccount implements IVerifyAccount {
     if (verification.status == true) {
       return;
     }
-    await this.verifyAccountRepository.verify(id);
-    const { _id, email, name, password } = verification.account;
+    await this.verifyAccountRepository.verify(accountId);
+    const { id, email, name, password } = verification.account;
     await accountVerifiedPublisher.publisher<AccountVerified>({
-      _id,
+      _id:accountId,
       email,
       name,
       password,

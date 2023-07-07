@@ -1,4 +1,4 @@
-import { AccountRepository } from "../../../infra/mongo/account-repository";
+import { AccountRepository } from "../../../infra/database/account-repository";
 import { ChangePicture } from "../../../useCases/change-picture";
 
 export const changePictureFactory = () => {

@@ -24,23 +24,23 @@ export class SignUp implements ISignUp {
     const emailInUse = await this.findAccountByEmail.find({
       email: account.email,
     });
-    if (emailInUse && emailInUse._id) {
+    if (emailInUse && emailInUse.id) {
       throw new AnyHttpError(409, "Email already used!");
     }
-    const { _id, email, name, password } = await this.account.save({
+    const { id, email, name, password } = await this.account.save({
       ...account,
       password: this.passwordHasher.hash(account.password),
     });
     const secret = await this.verification.save(
-      _id,
+      id,
       this.secretGenerator.generate()
     );
     await accountCreatedPublisher.publisher<AccountCreated>({
-      _id,
+      _id:id,
       email,
       name,
       secret,
     });
-    return { _id, email, name, password, secret };
+    return { id, email, name, password, secret };
   }
 }

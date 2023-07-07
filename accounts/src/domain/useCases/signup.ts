@@ -8,5 +8,5 @@ export interface ISignUpDTO {
 }
 export interface ISignupResponse extends ISignUpDTO {
   secret: string;
-  _id: string;
+  id: string;
 }

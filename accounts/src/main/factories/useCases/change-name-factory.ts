@@ -1,4 +1,4 @@
-import { AccountRepository } from "../../../infra/mongo/account-repository";
+import { AccountRepository } from "../../../infra/database/account-repository";
 import { ChangeName } from "../../../useCases/change-name";
 
 export const changeNameFactory = () => {

@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+model Account {
+    id        String     @id @default(uuid()) @unique
+    name      String
+    imageName String  @default("default.png")
+    email String @unique
+    password String
+    verification Verification?
+}
+model Verification {
+  id        String     @id @default(uuid()) @unique
+  secret String
+  account   Account @relation(fields: [accountId], references: [id])
+  accountId String @unique
+  status Boolean @default(false)
+}

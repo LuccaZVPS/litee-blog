@@ -1,4 +1,4 @@
-import { VerificationRepository } from "../../../infra/mongo/verification-repository";
+import { VerificationRepository } from "../../../infra/database/verification-repository";
 import { VerifyAccount } from "../../../useCases/verify-account";
 
 export const makeVerifyAccount = () => {
