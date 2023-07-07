@@ -23,12 +23,13 @@
   },
   "dependencies": {
     "@litee-blog/shared": "^1.3.7",
+    "@prisma/client": "^4.16.2",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
-    "generate-password": "^1.7.0",
-    "mongoose": "^7.2.1"
+    "generate-password": "^1.7.0"
+    
   }
 }
