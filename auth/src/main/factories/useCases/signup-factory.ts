@@ -1,6 +1,6 @@
 import { BcryptAdapter } from "../../../infra/hasher/bcrypt-adapter";
-import { AccountRepository } from "../../../infra/mongo/repositories/account-repository";
-import { VerificationRepository } from "../../../infra/mongo/repositories/verification-repository";
+import { AccountRepository } from "../../../infra/database/repositories/account-repository";
+import { VerificationRepository } from "../../../infra/database/repositories/verification-repository";
 import { GeneratePasswordAdapter } from "../../../infra/passwordGenerator/generate-password-adapter";
 import { SignUp } from "../../../useCases/signup";
 

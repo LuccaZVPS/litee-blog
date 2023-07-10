@@ -1,6 +1,5 @@
 export interface ICategory {
-  _id: string;
+  id: string;
   title: string;
   imageName: string;
-  imagePath: string;
 }

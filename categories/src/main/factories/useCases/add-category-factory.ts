@@ -1,4 +1,4 @@
-import { CategoryResitory } from "../../../infra/mongo/category-repository";
+import { CategoryResitory } from "../../../infra/database/category-repository";
 import { AddCategory } from "../../../useCases/add-category";
 
 export const addCategoryFactory = () => {

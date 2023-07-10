@@ -15,8 +15,8 @@ export class AddCategoryController implements IController {
       if (errors && errors.length > 0) {
         throw new BadRequestError(errors);
       }
-      const { _id } = await this.addCategory.add(req.title, req.file.filename);
-      return { status: 201, body: { id: _id } };
+      const { id } = await this.addCategory.add(req.title, req.file.filename.split("/")[req.file.filename.split("/").length - 1]);
+      return { status: 201, body: { id } };
     } catch (e) {
       fs.unlinkSync(req.file.filename);
       throw e;

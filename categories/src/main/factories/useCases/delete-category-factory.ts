@@ -1,4 +1,4 @@
-import { CategoryResitory } from "../../../infra/mongo/category-repository";
+import { CategoryResitory } from "../../../infra/database/category-repository";
 import { DeleteCategory } from "../../../useCases/delete-category";
 
 export const deleteCategoryFactory = () => {

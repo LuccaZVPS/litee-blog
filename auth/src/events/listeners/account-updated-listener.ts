@@ -4,7 +4,7 @@ import {
   EventNames,
   Services,
 } from "@litee-blog/shared/infra/broker";
-import { AccountRepository } from "../../infra/mongo/repositories/account-repository";
+import { AccountRepository } from "../../infra/database/repositories/account-repository";
 const accountRepository = new AccountRepository();
 export class AccountUpdatedListener extends Event {
   constructor() {
