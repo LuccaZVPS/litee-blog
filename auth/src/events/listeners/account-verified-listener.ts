@@ -15,8 +15,9 @@ export class AccountVerifiedListener extends Event {
   }
   async listen() {
     await this.listener(async (accountData: AccountVerified) => {
+      const {_id,email,name,password} = accountData
       await accountRepository.save({
-        ...accountData,
+        email,name,password,id:_id
       });
     });
   }

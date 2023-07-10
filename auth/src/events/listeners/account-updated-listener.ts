@@ -16,7 +16,7 @@ export class AccountUpdatedListener extends Event {
   async listen() {
     await this.listener(async (accountData: AccountUpdated) => {
       await accountRepository.update({
-        _id: accountData._id,
+        id: accountData._id,
         data: accountData.data,
       });
     });

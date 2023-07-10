@@ -1,37 +1,51 @@
+import { PrismaClient } from "@prisma/client";
 import { IAccount } from "../../../domain/entities/account";
 import { IFindAccountByEmail } from "../../../useCases/protocols/find-account-by-email";
-import { accountModel } from "../models/account-model";
-
+const prisma = new PrismaClient()
 export class AccountRepository implements IFindAccountByEmail {
   async find(email: string): Promise<void | IAccount> {
-    const account = await accountModel.findOne({ email });
-    if (!account?._id) {
+    const account = await prisma.account.findUnique({
+      where:{
+        email
+            }
+    })
+    if (!account) {
       return;
     }
     return {
-      _id: account._id,
+      id: account.id,
       email: account.email,
       name: account.name,
       password: account.password,
     };
   }
   async update(params: IUpdateAccountParams) {
-    await accountModel.updateOne({ _id: params._id }, { ...params.data });
+    await prisma.account.update({
+      where:{
+        id:params.id
+      },
+      data:{
+        ...params.data
+      }
+    })
   }
   async save(params: {
     email: string;
     password: string;
     name: string;
-    _id: string;
+    id: string;
   }) {
-    await accountModel.create({
-      ...params,
-    });
+    await prisma.account.create({
+      data:{
+        ...params
+      }
+    })
+   
   }
 }
 
 interface IUpdateAccountParams {
-  _id: string;
+  id: string;
   data: {
     name?: string;
     email?: string;
